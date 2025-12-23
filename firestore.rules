@@ -1,0 +1,31 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Devices collection - authenticated access only
+    match /devices/{deviceId} {
+      // Allow authenticated users to read device info
+      allow read: if request.auth != null;
+      
+      // Allow authenticated users to write (for now - all devices use shared auth)
+      // TODO: In production, create unique email/password per device:
+      //   device001@trafilytics.local / unique_password_001
+      //   device002@trafilytics.local / unique_password_002
+      // Then enforce: allow write: if request.auth != null && request.auth.email.matches('device.*@trafilytics\\.local');
+      allow write: if request.auth != null;
+      
+      // Device info document
+      match /device_info {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null;
+      }
+      
+      // Daily data collection
+      match /data/{date} {
+        allow read: if request.auth != null;
+        allow write: if request.auth != null;
+      }
+    }
+  }
+}
