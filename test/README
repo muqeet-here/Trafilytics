@@ -1,11 +1,210 @@
+# TRAFILYTICS
+### Privacy-First Billboard Audience Analytics System
 
-This directory is intended for PlatformIO Test Runner and project tests.
+TRAFILYTICS is a **privacy-compliant, embedded billboard analytics system** designed to measure **aggregate audience impressions** using **passive Wi-Fi scanning**.  
+It is built for real-world outdoor deployments and strictly avoids collecting, storing, or transmitting any personally identifiable information (PII).
 
-Unit Testing is a software testing method by which individual units of
-source code, sets of one or more MCU program modules together with associated
-control data, usage procedures, and operating procedures, are tested to
-determine whether they are fit for use. Unit testing finds problems early
-in the development cycle.
+---
 
-More information about PlatformIO Unit Testing:
-- https://docs.platformio.org/en/latest/advanced/unit-testing/index.html
+## 🎯 Purpose
+
+- Measure billboard visibility and audience presence
+- Provide daily impression analytics
+- Ensure full compliance with privacy regulations
+- Operate autonomously using cellular connectivity
+- Scale across multiple billboard installations
+
+---
+
+## 🔐 Privacy & Legal Compliance
+
+TRAFILYTICS is designed with **privacy-first architecture** and complies with:
+
+- California Consumer Privacy Act (CCPA)
+- FTC Act (Aggregated Data Guidelines)
+- US state privacy regulations
+
+### Privacy Guarantees
+
+- No MAC addresses stored
+- No MAC addresses transmitted
+- No personal data collected
+- No individual tracking
+- No cross-session identification
+
+### Privacy Techniques
+
+- Passive Wi-Fi scanning only
+- MAC addresses are hashed using **FNV-1a 64-bit**
+- Ephemeral per-boot salts prevent cross-session tracking
+- Hashes are one-way and non-reversible
+- All sensitive data is kept in volatile memory only
+
+---
+
+## 🧱 System Architecture
+
+### Hardware
+- ESP32 (Wi-Fi scanning & processing)
+- SIM7600G-H (4G LTE + GPS)
+- SD Card (optional diagnostics logging)
+
+### Cloud
+- Firebase Realtime Database
+- SSL/TLS encrypted communication
+- Authenticated device access
+
+---
+
+## ⚙️ Core Features
+
+### Passive Audience Detection
+- Wi-Fi scans every 5 seconds
+- Detects nearby devices passively
+- No device interaction or connection
+
+### Impression Analytics
+- Total detections per scan
+- Unique vs repeated networks
+- Daily cumulative impressions
+
+### Intelligent Deduplication
+- Hash-based detection
+- Prevents double counting
+- Prevents cross-day tracking
+
+### Daily Data Management
+- Automatic date detection
+- Daily counters persist across restarts
+- Structured Firebase uploads
+
+### GPS Location Awareness
+- GPS via SIM7600
+- Location attached to analytics and device metadata
+- Retry and fallback logic
+
+### Secure Firebase Integration
+- Authenticated device login
+- Realtime database updates
+- Encrypted JSON payloads
+
+### Device Identity & Management
+- Unique combined billboard ID
+- QR-ready access key generation
+- Scalable multi-device deployment
+
+### SD Card Diagnostics (Optional)
+- Startup logs
+- Scan summaries
+- GPS and network events
+- Error diagnostics
+
+### Reliability & Stability
+- Automatic 12-hour system restart
+- Robust retry logic
+- Designed for unattended operation
+
+---
+
+## 📊 Data Collected (Aggregated Only)
+
+| Data Type | Stored | Identifiable |
+|---------|-------|--------------|
+| Wi-Fi MAC Address | ❌ No | ❌ No |
+| Hashed MAC | Memory Only | ❌ No |
+| Impression Counts | ✅ Yes | ❌ No |
+| GPS Location | ✅ Yes | ❌ No |
+| Device Metadata | ✅ Yes | ❌ No |
+
+---
+
+## 🚫 Explicitly Not Supported
+
+- Personal identification
+- Behavioral profiling
+- Persistent tracking
+- Cross-location tracking
+- Data resale
+
+---
+
+## 🧠 Use Cases
+
+- Billboard audience measurement
+- Out-of-home (OOH) advertising analytics
+- Smart city footfall estimation
+- Traffic density analysis
+- Retail visibility metrics
+
+---
+
+## ☁️ Firebase Data Structure
+
+```
+/devices/
+ └── BILLBOARDID_MAC/
+     ├── device_info/
+     │   ├── firmware
+     │   ├── status
+     │   └── Location
+     └── data/
+         └── YYYY-MM-DD/
+             ├── daily_impressions
+             └── last_updated
+```
+
+---
+
+## 🛠 Firmware Details
+
+- Firmware Version: `1.0.0-PROD`
+- Scan Interval: 5 seconds
+- Upload Interval: Every 10 scans
+- Hash Algorithm: FNV-1a 64-bit
+- Network: 4G LTE (SIM7600)
+
+---
+
+## 🚀 Installation & Deployment
+
+### Hardware Requirements
+- ESP32
+- SIM7600G-H LTE module
+- Active SIM card (data enabled)
+- GPS & LTE antennas
+- SD Card (optional)
+
+### Software Requirements
+- Arduino IDE or PlatformIO
+- ESP32 board support
+- Required libraries:
+  - TinyGSM
+  - FirebaseClient
+  - WiFi
+  - SD
+  - SPI
+
+### Configuration
+
+Create a `credentials.h` file:
+
+```cpp
+#define CELLULAR_APN "your_apn"
+#define CELLULAR_USER "apn_user"
+#define CELLULAR_PASS "apn_pass"
+
+#define FIREBASE_API_KEY "your_api_key"
+#define FIREBASE_AUTH_EMAIL "device_auth_email"
+#define FIREBASE_AUTH_PASSWORD "device_auth_password"
+#define FIREBASE_DATABASE_URL "https://your-db.firebaseio.com"
+
+#define BILLBOARD_IDS "BILLBOARD_001"
+```
+
+---
+
+## ✅ Summary
+
+TRAFILYTICS provides **ethical, scalable, and privacy-safe billboard analytics** by focusing on aggregated signals instead of individuals.
+
+It delivers **real insight without surveillance**.
