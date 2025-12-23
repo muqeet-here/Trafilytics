@@ -14,7 +14,6 @@ Trafilytics is an IoT-based billboard analytics platform that provides aggregate
 - **Cloud Integration**: Firebase backend for data storage and analytics
 - **Aggregate Metrics**: No personal data collection or device tracking capability
 - **GPS Tracking**: Location awareness for billboard placement analytics
-- **SD Card Logging**: Local data backup and offline operation
 
 ## Privacy Compliance
 
@@ -35,7 +34,6 @@ This system is fully compliant with:
 
 - **Microcontroller**: ESP32 Development Board
 - **Cellular Modem**: SIM7600 (4G LTE)
-- **Storage**: SD Card Module
 - **Power**: Appropriate power supply for ESP32 and SIM7600
 
 ### Pin Configuration
@@ -190,23 +188,10 @@ pio device monitor -b 115200
 1. **SIM7600 not responding**: Check UART connections and power supply
 2. **WiFi scan errors**: Ensure ESP32 WiFi is enabled
 3. **Firebase connection fails**: Verify credentials and internet connectivity
-4. **SD card errors**: Check SD card format (FAT32) and connections
-
-## License
-
-[Add your license here]
 
 ## Author
 
 Muqeet (@muqeet-here)
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## Support
-
-For issues and questions, please open an issue on GitHub.
 
 ---
 
